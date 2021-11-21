@@ -8,8 +8,8 @@ const cors = require('cors');
 app.use(cors());
 
 // api模块化
-const read = require('../newapis/commonfilm/read');
-const write = require('../newapis/commonfilm/write');
+const read = require('./commonfilm/read');
+const write = require('./commonfilm/write');
 
 
 // 配置模型
