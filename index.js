@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const port = 8080;
-const listenIp = 'localhost';
+const listenIp = '192.168.0.101';
 const cors = require('cors');
 app.use(cors());
 
