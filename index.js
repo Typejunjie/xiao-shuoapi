@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const app = express();
 const port = 8080;
 const listenIp = 'localhost';
+
+// 使用cors模块解决跨域问题
 const cors = require('cors');
 app.use(cors());
 
