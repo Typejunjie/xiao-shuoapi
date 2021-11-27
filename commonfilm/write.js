@@ -1,4 +1,4 @@
-// 写入数据模块
+// 写入数据
 
 function write(app, mongoose, datamodel){
     app.post('/write', (req, res) => {
@@ -8,13 +8,14 @@ function write(app, mongoose, datamodel){
             let writemodel = mongoose.model('text', datamodel);
             writemodel.create(_data, (err) => {
                 if (!err) {
+                    res.end({status: true})
                     console.log('存入：' + _data);
                 } else {
-                    console.log(err);
+                    res.send({status: false})
+                    throw err
                 }
             });
         })
-        res.end('收到请求')
     });
 }
 

@@ -12,6 +12,9 @@ app.use(cors());
 // api模块化
 const read = require('./commonfilm/read');
 const write = require('./commonfilm/write');
+const _delete = require('./commonfilm/_delete');
+const revise = require('./commonfilm/revise');
+
 
 
 // 配置模型
@@ -28,6 +31,12 @@ write.write(app, mongoose, datamodel);
 
 // 接收read请求
 read.read(app, mongoose, datamodel);
+
+// 接收delete请求
+_delete._delete(app, mongoose, datamodel)
+
+// 接收revise请求
+revise.revise(app, mongoose, datamodel)
 
 
 // 开启服务
