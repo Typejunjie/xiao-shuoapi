@@ -2,8 +2,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-const port = 8080;
-const listenIp = 'localhost';
+
+// ip配置集中控制
+const testip = require('../xiao-shuo/src/api/testmodelip.js')
 
 // 使用cors模块解决跨域问题
 const cors = require('cors');
@@ -47,6 +48,6 @@ mongoose.connection.once('open', (err) => {
         console.log('数据库连接失败', err);
     }
 });
-app.listen(port, listenIp, () => {
-    console.log('serve已经启动');
+app.listen(testip.serveport, testip.ip, () => {
+    console.log(testip.serveport, testip.ip);
 })
