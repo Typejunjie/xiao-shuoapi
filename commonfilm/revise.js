@@ -9,9 +9,9 @@ function revise(app, mongoose, datamodel) {
             revisemodel.findOne({ _id: _data._id }, (err, data) => {
                 if (!err) {
                     data.set({ content: _data.content });
-                    data.save((err, data) => {
+                    data.save(err => {
                         if (!err) {
-                            res.send('修改成功')
+                            res.send('修改成功');
                             console.log('修改了一条数据');
                         } else {
                             res.send('修改失败')
