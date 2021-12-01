@@ -15,6 +15,12 @@ function userVerify(app, mongoose, userModel) {
             const text = mongoose.createConnection('mongodb://localhost:27017/text')
             let user = userKey.model('data', userModel);
             let Key = text.model('newKey', require('../DataModel/dataModel').userKey)
+            // 对收到信息检查
+            if(!_data.username || !_data.password){
+                send({state: false, content: '请发送应有的数据'})
+            } else {
+                _data = {username: _data.username,password: _data.password}
+            }
             //查找username
             user.findOne(_data, (err, finddata) => {
                 if (finddata) {
