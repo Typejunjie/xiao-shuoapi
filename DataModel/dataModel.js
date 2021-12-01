@@ -20,6 +20,14 @@ let userModel = new mongoose.Schema({
     dataCorrent: Number,
     historySearch: Array,
 })
+// 用户临时密钥
+let userKey = new mongoose.Schema({
+    username: String,
+    password: String,
+    Key: Number,
+});
+
 
 exports.datamodel = datamodel
 exports.userModel = userModel
+exports.userKey = userKey

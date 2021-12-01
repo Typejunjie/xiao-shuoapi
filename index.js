@@ -40,10 +40,10 @@ _delete(app, mongoose, datamodel)
 revise(app, mongoose, datamodel)
 
 // 接收用户登录请求
-//userVerify(app, mongoose, userModel)
+userVerify(app, mongoose, userModel)
 
 // 接收用户注册请求
-registered(app, time)
+registered(app, mongoose, time)
 
 
 

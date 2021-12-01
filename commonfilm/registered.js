@@ -5,7 +5,7 @@
 这里直接send发送了数据，最后注册成功后promise进入凝固pending状态
 */
 
-function registered(app,mongoose, time) {
+function registered(app, mongoose, time) {
     // 接收服务
     app.post('/registered', (req, res) => {
         req.on('data', data => {
@@ -34,12 +34,19 @@ function registered(app,mongoose, time) {
                 _data.newOnLine = time();
                 _data.dataCorrent = 0;
                 _data.historySearch = [];
-                _data.UID = 1
-                return Promise.resolve(research)
+                // 将用户的UID数据补充为数字大小顺序的值
+                // 将返回的pending状态promise再包装为resolve状态的promise返回
+                return Promise.resolve(
+                    research.find().then(finddata => {
+                        if (!!finddata) {
+                            _data.UID = finddata.length
+                        }
+                        return (research)
+                    })
+                )
             }).then(research => {
                 // 创建用户
-                research.create(_data, err => {
-                    console.log(!err);
+                 research.create(_data, err => {
                     if (!err) {
                         // 成功
                         res.send(JSON.stringify({ state: true, content: '注册成功' }))
@@ -47,7 +54,6 @@ function registered(app,mongoose, time) {
                     } else {
                         // 失败
                         res.send(JSON.stringify({ state: false, content: '注册失败，请联系管理员' }))
-
                     }
                 })
             }).catch((params) => {
