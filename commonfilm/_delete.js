@@ -4,10 +4,10 @@ function _delete(app, mongoose, datamodel) {
     app.post('/delete', (req, res) => {
         req.on('data', data => {
             let _data = JSON.parse(data);
-            mongoose.connect('mongodb://localhost:27017/text');
-            let deletemodel = mongoose.model('text', datamodel);
-            deletemodel.deleteOne(_data, (err, data) => {
-                if (!err) {
+            const text = mongoose.createConnection('mongodb://localhost:27017/text');
+            let deletemodel = text.model('text', datamodel);
+            deletemodel.deleteOne(_data, (err, searchData) => {
+                if (!!searchData) {
                     res.send('删除成功')
                     console.log('删除一条数据');
                 } else {

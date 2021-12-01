@@ -5,27 +5,26 @@
 这里直接send发送了数据，最后注册成功后promise进入凝固pending状态
 */
 
-
-function registered(app, mongoose, userModel, time) {
+function registered(app,mongoose, time) {
     // 接收服务
     app.post('/registered', (req, res) => {
         req.on('data', data => {
             let _data = JSON.parse(data);
             new Promise((resolve, reject) => {
                 // 将集合实例挂载传参上并连接数据库
-                mongoose.connect('mongodb://localhost:27017/userKey');
-                research = mongoose.model('data', userModel);
+                const userKey = mongoose.createConnection('mongodb://localhost:27017/userKey');
+                let research = userKey.model('data', require('../DataModel/dataModel').userModel);
                 // 重名检查
-                research.findOne({ username: _data.username }, err => {
-                    if (!err) {
-                        reject({ state: false, content: '用户名已被注册' })
-                    } else {
-                        // 用户名与密码的验证
+                research.findOne({ username: _data.username }, (err, ser) => {
+                    if (!ser) {
+                        //  用户名与密码的验证
                         if (!_data.username || !_data.password) {
                             reject({ state: false, content: '内容不足' })
                         } else {
                             resolve(research)
                         }
+                    } else {
+                        reject({ state: false, content: '用户名已被注册' })
                     }
                 })
             }).then(research => {
@@ -40,15 +39,19 @@ function registered(app, mongoose, userModel, time) {
             }).then(research => {
                 // 创建用户
                 research.create(_data, err => {
+                    console.log(!err);
                     if (!err) {
+                        // 成功
                         res.send(JSON.stringify({ state: true, content: '注册成功' }))
                         console.log('用户:' + _data.username + '注册成功');
                     } else {
+                        // 失败
                         res.send(JSON.stringify({ state: false, content: '注册失败，请联系管理员' }))
+
                     }
                 })
-            }).catch((data) => {
-                res.send(JSON.stringify(data))
+            }).catch((params) => {
+                res.send(JSON.stringify(params))
             })
         })
     })

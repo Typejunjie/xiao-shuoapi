@@ -43,17 +43,19 @@ revise(app, mongoose, datamodel)
 //userVerify(app, mongoose, userModel)
 
 // 接收用户注册请求
-registered(app, mongoose, userModel, time)
+registered(app, time)
 
 
+
+//mongoose.createConnection('mongodb://[localhost:27017/userKey][localhost:27017/text]')
 // 开启服务
-mongoose.connection.once('open', (err) => {
+/* mongoose.on('connected', (err) => {
     if (!err) {
         console.log('数据库连接成功');
     } else {
         console.log('数据库连接失败', err);
     }
-});
+}); */
 app.listen(testip.serveport, testip.ip, () => {
     console.log('正在监听'+testip.serveport, testip.ip);
 })

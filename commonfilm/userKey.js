@@ -4,8 +4,8 @@ function userVerify(app, mongoose, userModel) {
     app.post('/userKey', (req, res) => {
         req.on('data', data => {
             let _data = JSON.parse(data);
-            mongoose.connect('mongodb://localhost:27017/userKey');
-            let research = mongoose.model('data', userModel);
+            const userKey = mongoose.createConnection('mongodb://localhost:27017/userKey');
+            let research = userKey.model('data', userModel);
             
         })
     })
