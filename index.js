@@ -1,9 +1,6 @@
 // 基础模块
 const express = require('express');
-const mongoose = require('mongoose');
 const app = express();
-// 中间处理函数
-const { time } = require('./middleFunction/time')
 
 // ip配置提取自前端api
 const testip = require('../xiao-shuo/src/api/testmodelip.js')
@@ -20,30 +17,23 @@ const { revise } = require('./commonfilm/revise');
 const { userVerify } = require('./commonfilm/userKey')
 const { registered } = require('./commonfilm/registered')
 
-
-
-// 配置模型
-const { datamodel, userModel } = require('./DataModel/dataModel')
-
-
 // 接收write请求并写入对应用户数据库
-write(app, mongoose);
-
+write(app);
 
 // 接收read请求
-read(app, mongoose);
+read(app);
 
 // 接收delete请求
-_delete(app, mongoose)
+_delete(app)
 
 // 接收revise请求
-revise(app, mongoose, datamodel)
+revise(app)
 
 // 接收用户登录请求
-userVerify(app, mongoose, userModel)
+userVerify(app)
 
 // 接收用户注册请求
-registered(app, mongoose, time)
+registered(app)
 
 
 

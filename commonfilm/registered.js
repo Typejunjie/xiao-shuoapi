@@ -4,8 +4,11 @@
 在mongoose的create函数中的回调函数不能使用return或throw使promis进入完成或失败状态
 这里直接send发送了数据，最后注册成功后promise进入凝固pending状态
 */
+const { userModel } = require('../DataModel/dataModel')
+const mongoose = require('mongoose')
+const { time } = require('../middleFunction/time')
 
-function registered(app, mongoose, time) {
+function registered(app) {
     // 接收服务
     app.post('/registered', (req, res) => {
         req.on('data', data => {
@@ -13,7 +16,7 @@ function registered(app, mongoose, time) {
             new Promise((resolve, reject) => {
                 // 将集合实例挂载传参上并连接数据库
                 const userKey = mongoose.createConnection('mongodb://localhost:27017/userKey');
-                let research = userKey.model('data', require('../DataModel/dataModel').userModel);
+                let research = userKey.model('data', userModel);
                 // 重名检查
                 research.findOne({ username: _data.username }, (err, ser) => {
                     if (!ser) {

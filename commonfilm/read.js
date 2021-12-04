@@ -1,9 +1,9 @@
 // 提取主页面数据
 const { send } = require('../middleFunction/send')
 const { userKey, datamodel } = require('../DataModel/dataModel')
+const mongoose = require('mongoose')
 
-
-function read(app, mongoose) {
+function read(app) {
     app.post('/read', (req, res) => {
         // 对请求内容校正
         req.on('data', data => {

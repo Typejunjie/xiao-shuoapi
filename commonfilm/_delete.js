@@ -1,8 +1,9 @@
 // 满足删除请求
 const { userKey, datamodel } = require('../DataModel/dataModel')
+const mongoose = require('mongoose')
 
 
-function _delete(app, mongoose) {
+function _delete(app) {
     app.post('/delete', (req, res) => {
         req.on('data', data => {
             let _data = JSON.parse(data);

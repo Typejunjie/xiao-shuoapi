@@ -1,16 +1,18 @@
 // 写入数据
 const { send } = require('../middleFunction/send')
-const { datamodel,userModel } = require('../DataModel/dataModel')
+const { datamodel, userModel, userKey } = require('../DataModel/dataModel')
+const mongoose = require('mongoose')
 
-function write(app, mongoose) {
+function write(app) {
     app.post('/write', (req, res) => {
         req.on('data', data => {
             const text = mongoose.createConnection('mongodb://localhost:27017/text');
             const userconnect = mongoose.createConnection('mongodb://localhost:27017/userKey')
             let _data = JSON.parse(data)
-            let userKey = text.model('newKey', require('../DataModel/dataModel').userKey)
-            userKey.findOne({ username: _data.username, Key: _data.newKey }, (err, FINDKey) => {
+            let userKeymodel = text.model('newKey', userKey)
+            userKeymodel.findOne({ username: _data.username, Key: _data.newKey }, (err, FINDKey) => {
                 if (!!FINDKey) {
+                    // 写入数据
                     let writemodel = text.model(_data.username, datamodel);
                     writemodel.create(_data, (err, searchData) => {
                         if (!!searchData) {
@@ -19,9 +21,20 @@ function write(app, mongoose) {
                             let user = userconnect.model('data', userModel)
                             user.findOne({ username: _data.username }, (err, userdata) => {
                                 if (!!userdata) {
-                                    userdata.set({ dataCorrent: userdata.dataCorrent++ })
-                                    userdata.save((err) => {
+                                    // 查找所有数据
+                                    writemodel.find((err, findUserAllData) => {
+                                        if (!!findUserAllData) {
+                                            userdata.set({ dataCorrent: findUserAllData.length })
+                                            userdata.save((err) => {
+                                                if(!err){
+                                                    // 存入成功
+                                                } else {
+                                                    // 存入失败
+                                                }
+                                            })
+                                        }
                                     })
+
                                 } else {
                                 }
                             })

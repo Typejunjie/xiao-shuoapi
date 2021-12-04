@@ -1,8 +1,9 @@
 // 处理修改数据请求
 const { datamodel, userKey } = require('../DataModel/dataModel')
+const mongoose = require('mongoose')
 const { send } = require('../middleFunction/send')
 
-function revise(app, mongoose) {
+function revise(app) {
     app.post('/revise', (req, res) => {
         req.on('data', data => {
             let _data = JSON.parse(data);

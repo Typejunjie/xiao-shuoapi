@@ -1,18 +1,19 @@
 // 处理用户账户与密码请求
-
+const mongoose = require('mongoose')
 const { time } = require('../middleFunction/time');
 const { send } = require('../middleFunction/send')
+const { userModel, userKey } = require('../DataModel/dataModel')
 
-function userVerify(app, mongoose, userModel) {
+function userVerify(app) {
     // 发送任务统一处理
     app.post('/userKey', (req, res) => {
         // 收到数据进行处理
         req.on('data', data => {
             let _data = JSON.parse(data);
-            const userKey = mongoose.createConnection('mongodb://localhost:27017/userKey');
+            const userKeyconnect = mongoose.createConnection('mongodb://localhost:27017/userKey');
             const text = mongoose.createConnection('mongodb://localhost:27017/text')
-            let user = userKey.model('data', userModel);
-            let Key = text.model('newKey', require('../DataModel/dataModel').userKey)
+            let user = userKeyconnect.model('data', userModel);
+            let Key = text.model('newKey', userKey)
             // 对收到信息检查
             if (!_data.username || !_data.password) {
                 send(res, { state: false, content: '请发送应有的数据' });
