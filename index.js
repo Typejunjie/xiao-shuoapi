@@ -27,14 +27,14 @@ const { datamodel, userModel } = require('./DataModel/dataModel')
 
 
 // 接收write请求并写入对应用户数据库
-write(app, mongoose, datamodel);
+write(app, mongoose);
 
 
 // 接收read请求
-read(app, mongoose, datamodel);
+read(app, mongoose);
 
 // 接收delete请求
-_delete(app, mongoose, datamodel)
+_delete(app, mongoose)
 
 // 接收revise请求
 revise(app, mongoose, datamodel)
