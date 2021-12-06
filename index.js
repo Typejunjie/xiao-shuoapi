@@ -10,10 +10,10 @@ const cors = require('cors');
 app.use(cors());
 
 // api模块化
-const { read } = require('./commonfilm/read');
-const { write } = require('./commonfilm/write');
-const { _delete } = require('./commonfilm/_delete');
-const { revise } = require('./commonfilm/revise');
+const { read } = require('./flimPromis/_read');
+const { write } = require('./flimPromis/_write');
+const { _delete } = require('./flimPromis/_delete');
+const { revise } = require('./flimPromis/_revise');
 const { userVerify } = require('./commonfilm/userKey')
 const { registered } = require('./commonfilm/registered')
 
