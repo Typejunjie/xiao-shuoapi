@@ -1,6 +1,6 @@
-const { datamodel, userKey } = require('../DataModel/dataModel')
+const { datamodel } = require('../DataModel/dataModel')
 const mongoose = require('mongoose')
-const { send } = require('../middleFunction/send')
+const { send,findKey } = require('../middleFunction/send')
 
 
 function revise(app) {
@@ -26,13 +26,9 @@ function revise(app) {
                 return Promise.resolve(params)
             }).then(params => {
                 // 查找密钥
-                let findNewKeyCollection = text.model('newKey', userKey)
                 return Promise.resolve(
-                    findNewKeyCollection.findOne({
-                        username: params._data.username,
-                        Key: params._data.newKey
-                    }).then(findNewKeyData => {
-                        if (!!findNewKeyData) {
+                    findKey(params._data).then(returnData => {
+                        if (returnData) {
                             // 查找成功
                         } else {
                             params.returnData = { state: false, content: '请重新登录' }

@@ -1,4 +1,4 @@
-const { send } = require('../middleFunction/send')
+const { send, findKey } = require('../middleFunction/send')
 const { userKey, datamodel } = require('../DataModel/dataModel')
 const mongoose = require('mongoose')
 
@@ -24,19 +24,14 @@ function read(app) {
                 return Promise.resolve(params)
             }).then(params => {
                 // 查找密钥
-                let newKeyCollection = text.model('newKey', userKey);
                 return Promise.resolve(
-                    newKeyCollection.findOne({
-                        username: params._data.username,
-                        Key: params._data.newKey
-                    }).then(findNewKeyData => {
-                        // 在查找操作的then方法中返回参数
-                        if (!!findNewKeyData) {
-                            return params
+                    findKey(params._data).then(returnData => {
+                        if (returnData) {
+                            // 查找成功
                         } else {
                             params.returnData = { state: false, content: '请重新登录' }
-                            return params
                         }
+                        return params
                     })
                 )
             }).then(params => {
