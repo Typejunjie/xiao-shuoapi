@@ -22,6 +22,8 @@ function write(app) {
                 if (!_data.username || !_data.newKey || !_data.content || !_data.type) {
                     params.returnData = { state: false, content: '请检查您的内容是否完全' }
                     return Promise.reject(params)
+                } else {
+                   params._data.contentLength = params._data.content.length
                 }
                 return Promise.resolve(params)
             }).then(params => {
@@ -43,13 +45,16 @@ function write(app) {
                 }
                 // 写入数据
                 let writeDataCollection = text.model(params._data.username, datamodel)
-                // 将数据结构
-                const { writeday, type, content } = params._data
+                // 将数据解构
+                const { writeday, type, content, contentHead, username, contentLength } = params._data
                 return Promise.resolve(
                     writeDataCollection.create({
                         writeday,
                         type,
-                        content
+                        content,
+                        contentHead,
+                        username,
+                        contentLength,
                     }).then(writeData => {
                         if (!!writeData) {
                             // 写入成功
@@ -70,7 +75,7 @@ function write(app) {
                         if (!!findUserData) {
                             findUserData.set({ dataCorrent: (findUserData.dataCorrent + 1) })
                             findUserData.save(err => {
-                                if(!!err){
+                                if (!!err) {
                                     console.log('在写入时修改用户数后save失败');
                                 }
                             })

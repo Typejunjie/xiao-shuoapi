@@ -9,7 +9,7 @@ function userOnLine(app) {
     const userKeyconnect = mongoose.createConnection('mongodb://localhost:27017/userKey');
     const text = mongoose.createConnection('mongodb://localhost:27017/text')
     // 监听请求
-    app.post('userKey', (req, res) => {
+    app.post('/userKey', (req, res) => {
         // 监听数据
         req.on('data', data => {
             // 创建异步任务
@@ -97,11 +97,14 @@ function userOnLine(app) {
                             return params
                         })
                     )
+                } else {
+                    return Promise.resolve(params)
                 }
             }).then(params => {
                 // 结束异步任务
                 return Promise.reject(params)
             }).catch(params => {
+                // 发送数据
                 send(res, params.returnData)
             })
         })

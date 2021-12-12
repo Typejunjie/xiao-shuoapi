@@ -8,6 +8,9 @@ let datamodel = new mongoose.Schema({
     writeday: Array,
     type: String,
     content: String,
+    contentHead: String,
+    username: String,
+    contentLength: Number,
 });
 // 用户注册数据模型
 let userModel = new mongoose.Schema({

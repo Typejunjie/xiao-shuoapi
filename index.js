@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 // ip配置提取自前端api
-const testip = require('../xiao-shuo/src/api/testmodelip.js')
+const testip = require('./runIpPort')
 
 // 使用cors模块解决跨域问题
 const cors = require('cors');
@@ -14,7 +14,7 @@ const { read } = require('./flimPromis/_read');
 const { write } = require('./flimPromis/_write');
 const { _delete } = require('./flimPromis/_delete');
 const { revise } = require('./flimPromis/_revise');
-const { userVerify } = require('./commonfilm/userKey')
+const { userOnLine } = require('./flimPromis/_userKey')
 const { registered } = require('./commonfilm/registered')
 
 // 接收write请求并写入对应用户数据库
@@ -30,7 +30,7 @@ _delete(app)
 revise(app)
 
 // 接收用户登录请求
-userVerify(app)
+userOnLine(app)
 
 // 接收用户注册请求
 registered(app)
